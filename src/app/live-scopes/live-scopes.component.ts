@@ -19,6 +19,7 @@ export interface Leagues {
   styleUrls: ['./live-scopes.component.scss']
 })
 export class LiveScopesComponent implements OnInit {
+
   displayedColumns: string[] = [
     'country_name',
     'league_name',
@@ -29,15 +30,16 @@ export class LiveScopesComponent implements OnInit {
     'match_hometeam_score',
     'match_awayteam_name'
   ];
-  endDateObj: object;
-  startDateObj: object;
+
+  endDateObj;
+  startDateObj;
   message: string;
   league: string;
   country: string;
   start_date: string;
   end_date: string;
-  messagePopup: Boolean = false;
-  loader: Boolean = false;
+  messagePopup = false;
+  loader = false;
   results = [];
   countries: Countries[];
   leagues: Leagues[];
@@ -83,7 +85,7 @@ export class LiveScopesComponent implements OnInit {
     this.messagePopup = false;
   }
 
-  addDate = (type: string, event: object) => {
+  addDate = (type: string, event) => {
     // create valid dateString
     const fullYear = event.value.getFullYear();
     const month = event.value.getMonth();
