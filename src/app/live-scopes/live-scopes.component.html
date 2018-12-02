@@ -1,0 +1,122 @@
+<div *ngIf="loader" class="loader-box">
+  <div class="loader-circle">
+    <span><img src="assets/images/loader.gif" alt="loader" width="50" height="50" /></span>
+  </div>
+</div>
+
+<div *ngIf="messagePopup" class="message-box" (click)="closeMessagePopup()">
+  <div class="message">
+    <span>{{message}}</span>
+  </div>
+</div>
+
+<mat-card class="root-card">
+  <mat-card>
+    <h1>Livescores</h1>
+  </mat-card>
+  <p></p>
+  <mat-card>
+
+    <div class="flex-box-row">
+
+      <div>
+        <mat-form-field>
+          <input matInput name="minDate" [matDatepicker]="start_date" placeholder="Start date (Month/Day/Year)" (dateChange)="addDate('start', $event)">
+          <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+          <mat-datepicker #start_date></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <input matInput name="endDate" [matDatepicker]="end_date" placeholder="End date (Month/Day/Year)" (dateChange)="addDate('end', $event)">
+          <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
+          <mat-datepicker #end_date></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-select placeholder="Country" [(value)]="country">
+            <mat-option *ngFor="let country of countries" [value]="country.country_id"  >
+              {{country.country_name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-select placeholder="League" [(value)]="league">
+            <mat-option *ngFor="let league of leagues" [value]="league.league_id">
+              {{league.league_name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button class="search-btn" mat-button mat-raised-button [disabled]="!(start_date && end_date && league && country)" (click)="search()">Search</button>
+      </div>
+
+    </div>
+  </mat-card>
+
+  <p></p>
+
+  <mat-tab-group *ngIf="results[0]"  [selectedIndex]="selectedTab">
+    <mat-tab *ngFor="let tab of results; let index = index" [label]="tab.date.toLocaleTimeString('en-GB') + ' ' + tab.date.toLocaleDateString('en-GB')">
+
+      <table *ngIf="results[0]" mat-table [dataSource]="results[index].data" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="country_name">
+          <th mat-header-cell *matHeaderCellDef> Country name </th>
+          <td mat-cell *matCellDef="let element"> {{element.country_name}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="league_name">
+          <th mat-header-cell *matHeaderCellDef> League name </th>
+          <td mat-cell *matCellDef="let element"> {{element.league_name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="match_hometeam_name">
+          <th mat-header-cell *matHeaderCellDef> Home team </th>
+          <td mat-cell *matCellDef="let element"> {{element.match_hometeam_name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="match_awayteam_name">
+          <th mat-header-cell *matHeaderCellDef> Away team </th>
+          <td mat-cell *matCellDef="let element"> {{element.match_awayteam_name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="match_hometeam_score">
+          <th mat-header-cell *matHeaderCellDef> Home/Away score </th>
+          <td mat-cell *matCellDef="let element"> {{element.match_hometeam_score + '/' + element.match_awayteam_score}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="match_status">
+          <th mat-header-cell *matHeaderCellDef> Match status </th>
+          <td mat-cell *matCellDef="let element"> {{element.match_status}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="match_date">
+          <th mat-header-cell *matHeaderCellDef> Match date </th>
+          <td mat-cell *matCellDef="let element"> {{element.match_date}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="match_time">
+          <th mat-header-cell *matHeaderCellDef> Match time </th>
+          <td mat-cell *matCellDef="let element"> {{element.match_time}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+    </mat-tab>
+  </mat-tab-group>
+  <mat-card *ngIf="!results[0]">
+    <p>Results will be displayed here.</p>
+  </mat-card>
+</mat-card>

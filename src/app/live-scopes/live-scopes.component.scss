@@ -1,0 +1,46 @@
+table {
+  width: 100%;
+}
+.flex-box-row {
+  display: flex;
+  flex-direction: row;
+}
+.flex-box-row > div {
+  padding: 20px;
+}
+.root-card {
+  background-color: darkgrey;
+}
+.search-btn {
+  margin-top: 10px;
+}
+.message {
+  font-family: Arial, sans-serif;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 40px;
+  font-size: 20px;
+  border-radius: 5px;
+  background: #ffffff;
+  text-align: center;
+}
+.loader-box,
+.message-box {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 99999;
+}
+.loader-circle {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
